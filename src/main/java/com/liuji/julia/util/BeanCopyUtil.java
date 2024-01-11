@@ -1,10 +1,12 @@
 package com.liuji.julia.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class BeanCopyUtil {
     public static <T> T copyBean(Object source, Class<T> target) {
         // 创建目标对象
@@ -16,7 +18,7 @@ public class BeanCopyUtil {
                 BeanUtils.copyProperties(source, result);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("encountered an error when copy bean");
         }
         // 返回结果
         return result;
