@@ -14,7 +14,6 @@ import java.util.Date;
  * @author liuji
  * @since 2024-01-11 14:46:40
  */
-@SuppressWarnings("serial")
 @Data
 @Builder
 @NoArgsConstructor

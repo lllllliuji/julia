@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
  * @author liuji
  * @since 2024-01-11 14:39:56
  */
-@SuppressWarnings("serial")
 @Data
 @Builder
 @NoArgsConstructor
