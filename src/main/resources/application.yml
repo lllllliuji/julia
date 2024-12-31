@@ -1,6 +1,12 @@
 spring:
   application:
     name: julia
+  # spring security 配置
+  security:
+    user:
+      name: liuji
+      password: 123
+      roles: ["root"]
 
 springdoc:
   swagger-ui:
