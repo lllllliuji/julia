@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>系统首页</title>
+</head>
+<body>
+<h1 style="background-color: peachpuff">系统首页</h1>
+
+<a th:href="@{/huoying/shou-li-jian}">手里剑</a><br/>
+
+<a th:href="@{/huoying/luo-xuan-wan}">螺旋丸</a><br/>
+<a th:href="@{/huoying/xian-ren}">仙人模式</a>
+<a th:href="@{/huoying/wei-shou-yu}">尾兽玉</a><br/>
+
+
+<a th:href="@{/huoying/xie-lun-yan}">写轮眼</a><br/>
+<a th:href="@{/huoying/qian-niao}">千鸟</a><br/>
+
+<a th:href="@{/huoying/shen-luo-tian-zheng}">神罗天征</a><br/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="退出">
+</form>
+
+</body>
+</html>
