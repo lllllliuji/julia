@@ -62,6 +62,23 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- MySQL驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
+        <!-- Druid连接池
+            在没有 Druid 连接池的情况下，每个数据库请求都会创建和销毁连接，
+            而使用 Druid 之后，应用程序可以高效地复用已有连接，提升性能。
+         -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.21</version>
+        </dependency>
+
     </dependencies>
 
     <build>

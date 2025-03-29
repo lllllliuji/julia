@@ -26,19 +26,20 @@ public class SecurityConfig {
         // 基于http请求的授权配置
         // 放行/huoying/login请求，其他请求都需要认证
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers("/huoying/**").hasRole("Ninja")
-                .requestMatchers("/huoying/shou-li-jian").hasAnyRole("Ninja", "Akatsuki")
+                        .requestMatchers("/huoying/**").hasRole("Ninja")
+                        .requestMatchers("/huoying/shou-li-jian").hasAnyRole("Ninja", "Akatsuki")
 //                .requestMatchers("/huoying/xie-lun-yan").hasAuthority("xie-lun-yan")
-                .requestMatchers("/huoying/login").permitAll()
-                .anyRequest().authenticated()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/index").permitAll()
+                        .anyRequest().authenticated()
         );
 
         // 基于表单登录
-        http.formLogin(formLogin->
+        http.formLogin(formLogin ->
                 formLogin
-                        .loginPage("/huoying/login_page").permitAll() // 访问需要登录的资源跳转到自定义登录页面，获取登录页面的接口
-                        .loginProcessingUrl("/huoying/login") // 这个接口不用实现，spring security会把对这个接口的访问当作认证流程来处理
-                        .defaultSuccessUrl("/huoying/index") // 登录成功自动跳转到这个url
+                        .loginPage("/login_page").permitAll() // 访问需要登录的资源跳转到自定义登录页面，获取登录页面的接口
+                        .loginProcessingUrl("/login") // 这个接口不用实现，spring security会把对这个接口的访问当作认证流程来处理
+                        .defaultSuccessUrl("/index") // 登录成功自动跳转到这个url
                         .usernameParameter("username") // 用户名
                         .passwordParameter("password") // 密码
         );

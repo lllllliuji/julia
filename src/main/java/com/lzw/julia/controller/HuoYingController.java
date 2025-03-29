@@ -11,16 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/huoying")
 public class HuoYingController {
 
-    @GetMapping("/login_page")
-    public String login() {
-        return "huoying-login";
-    }
-
-    @GetMapping("/index")
-    public String index() {
-        return "huoying-index";
-    }
-
     @GetMapping("/shou-li-jian")
     public String shoulijian() {
         return "shou-li-jian";
