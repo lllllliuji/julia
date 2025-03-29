@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/index").permitAll()
                 .requestMatchers("/login_page").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
         );
 
         // 基于表单登录
