@@ -38,6 +38,11 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <!--
+                Lombok 主要在 编译期 工作，生成字节码中的 getter、setter、构造方法等，它不需要在 运行时 存在。
+                在大多数项目中，Lombok 的编译时依赖不应该传播给其他项目，所以使用 optional=true 可以避免将 Lombok 作为运行时依赖传递到其他项目。
+                只有需要 Lombok 的开发者或者模块才需要将其添加为依赖。
+            -->
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -82,8 +87,22 @@
         <!-- Mybatis-plus -->
         <dependency>
             <groupId>com.baomidou</groupId>
+            <!--springboot3特供版-->
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
             <version>3.5.5</version>
+        </dependency>
+
+        <!-- 本地缓存 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <!--参数校验-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
     </dependencies>

@@ -1,75 +1,57 @@
 package com.lzw.julia.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private UserDetailsService sysUserDetailsService;
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
 
         // 基于http请求的授权配置
-        // 放行/huoying/login请求，其他请求都需要认证
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                .requestMatchers("/index").permitAll()
-                .requestMatchers("/login_page").permitAll()
-                .anyRequest().permitAll()
+                .requestMatchers("/index", "/auth/login").permitAll()
+                .anyRequest().authenticated()
         );
+        // 禁用表单登录
+        http.formLogin(AbstractHttpConfigurer::disable);
 
-        // 基于表单登录
-        http.formLogin(formLogin ->
-                formLogin
-                        .loginPage("/login_page") // 访问需要登录的资源跳转到自定义登录页面，获取登录页面的接口
-                        .loginProcessingUrl("/login") // 这个接口不用实现，spring security会把对这个接口的访问当作认证流程来处理
-                        .defaultSuccessUrl("/index") // 登录成功自动跳转到这个url
-                        .usernameParameter("username") // 用户名
-                        .passwordParameter("password") // 密码
-        );
+        // 无状态管理，禁用session，采用jwt
+        http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
+
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails naruto = User
-                .withUsername("naruto")
-                .password("$2a$10$09f0VDkl9sXcXShAtDmWsefH2ZWXDyTreFhxTjHmTkEWp2r48ku5u")
-                .roles("USER", "Ninja", "RenZhuLi")
-//                .authorities("luo-xuan-wan", "xian-ren") // roles和authorities会互相覆盖权限，巨坑！
-                .build();
-        UserDetails sasuke = User
-                .withUsername("sasuke")
-                .password("$2a$10$WcPFSaAKIYfb9YmLPw/RTOUAYaZQ8cD1IZB8Tc2cl0Ng/aVw/8aWi")
-                .roles("USER", "Ninja")
-//                .authorities("qian-niao", "xie-lun-yan")
-                .build();
-        UserDetails pain = User
-                .withUsername("pain")
-                .password("$2a$10$I59VL/fdk2.X4hiTiq86UejnfISeXnW0h8HUyikcBX9UbBKX1nO1y")
-                .roles("USER", "Akatsuki")
-//                .authorities("shen-luo-tian-zheng")
-                .build();
-        UserDetails luffy = User
-                .withUsername("luffy")
-                .password("$2a$10$Qt6vBvU6f5H5K25TI0KYjeR4iOvh.w5f.9WB/CNiUfmYJ/D/hQAlS")
-                .roles("USER", "HaiZei")
-                .build();
-        return new InMemoryUserDetailsManager(naruto, sasuke, pain, luffy);
+    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(sysUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder); // 关联密码加密器
+        return new ProviderManager(provider);
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
