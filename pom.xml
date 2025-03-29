@@ -67,6 +67,7 @@
     <build>
         <plugins>
             <plugin>
+                <!--确保在编译时，Maven 会使用 Lombok 的注解处理器，以便在编译过程中生成 Lombok 注解的相关代码（如 @Getter, @Setter, @ToString 等）-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -79,6 +80,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!--
+                通常，在开发时使用 Lombok 只在编译阶段需要，而在运行时并不需要 Lombok，
+                因此将 Lombok 排除在 Spring Boot 的最终打包之外，以避免重复打包 Lombok。
+                Spring Boot 自己的编译阶段不需要 Lombok，因此可以通过排除它，避免不必要的打包。
+                -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
