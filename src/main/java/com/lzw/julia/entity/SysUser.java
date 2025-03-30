@@ -3,6 +3,7 @@ package com.lzw.julia.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("ums_sys_user")
 public class SysUser {
     // 用户ID
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     // 用户账号

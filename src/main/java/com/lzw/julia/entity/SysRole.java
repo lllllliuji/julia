@@ -3,6 +3,7 @@ package com.lzw.julia.entity;
 import java.util.Date;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("ums_sys_role")
 public class SysRole {
     // 角色id
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     // 角色名字
