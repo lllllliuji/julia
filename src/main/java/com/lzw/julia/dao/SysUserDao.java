@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzw.julia.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 系统用户表(SysUser)表数据库访问层
  *
@@ -12,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysUserDao extends BaseMapper<SysUser> {
-
+    List<String> getAuthoritiesByUserId(Integer userId);
 }
 

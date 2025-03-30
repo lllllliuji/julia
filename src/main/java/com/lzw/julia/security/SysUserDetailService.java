@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysUserDetailService implements UserDetailsService {
 
@@ -22,8 +24,14 @@ public class SysUserDetailService implements UserDetailsService {
         sysUserWrapper.eq(SysUser::getUsername, username);
         SysUser sysUser = sysUserDao.selectOne(sysUserWrapper);
         if (sysUser == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("用户名不存在");
         }
-        return JuliaUserDetails.builder().sysUser(sysUser).build();
+        // 2.查询用户的权限信息
+        List<String> userAuthorities = sysUserDao.getAuthoritiesByUserId(sysUser.getId());
+
+        return JuliaUserDetails.builder()
+                .sysUser(sysUser)
+                .userAuthorities(userAuthorities)
+                .build();
     }
 }

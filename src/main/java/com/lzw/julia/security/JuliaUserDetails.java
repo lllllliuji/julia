@@ -1,5 +1,7 @@
 package com.lzw.julia.security;
 
+import com.lzw.julia.entity.SysAuthority;
+import com.lzw.julia.entity.SysRole;
 import com.lzw.julia.entity.SysUser;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,8 @@ import java.util.List;
 @Builder
 public class JuliaUserDetails implements UserDetails {
     private SysUser sysUser;
+
+    private List<String> userAuthorities; // 用户权限信息
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -46,6 +50,6 @@ public class JuliaUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return sysUser.getStatus() == 0; // status为0则正常，否则异常。
     }
 }

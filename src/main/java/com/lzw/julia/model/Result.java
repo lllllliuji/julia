@@ -1,4 +1,4 @@
-package com.lzw.julia.api;
+package com.lzw.julia.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.lzw.julia.api.query;
+package com.lzw.julia.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
