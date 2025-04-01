@@ -47,7 +47,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
         // 2.生成token存入缓存，方便下次访问
         String credential = UUID.randomUUID().toString();
         String token = JwtUtils.createToken(credential);
-        caffeineUtils.setUserDetails(UUID.randomUUID().toString(), authentication.getPrincipal());
+        System.out.println(token);
+        caffeineUtils.setUserDetails(credential, authentication.getPrincipal());
         // 3.返回数据
         SysUser sysUser = ((JuliaUserDetails) authentication.getPrincipal()).getSysUser();
         return UserVo.builder()

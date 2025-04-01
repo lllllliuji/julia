@@ -1,5 +1,7 @@
 package com.lzw.julia.config;
 
+import com.lzw.julia.security.JwtAuthenticationFilter;
+import com.lzw.julia.util.CaffeineUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService sysUserDetailsService;
+
+    @Autowired
+    private CaffeineUtils caffeineUtils;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -40,6 +46,11 @@ public class SecurityConfig {
 
         // 无状态管理，禁用session，采用jwt
         http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        // jwt过滤器
+        http.addFilterBefore(JwtAuthenticationFilter.builder()
+                        .caffeineUtils(caffeineUtils)
+                        .build(),
+                UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

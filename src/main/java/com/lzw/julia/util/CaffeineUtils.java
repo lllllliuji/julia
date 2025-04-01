@@ -12,12 +12,12 @@ public class CaffeineUtils {
     @Autowired
     private Cache<String, Object> caffeineCache;
 
-    public JuliaUserDetails getJuliaUserDetails(String uuid) {
-        return ((JuliaUserDetails) caffeineCache.getIfPresent(SYS_PREFIX + uuid));
+    public JuliaUserDetails getJuliaUserDetails(String credential) {
+        return ((JuliaUserDetails) caffeineCache.getIfPresent(SYS_PREFIX + credential));
     }
 
-    public void setUserDetails(String uuid, Object userDetails) {
-        caffeineCache.put(SYS_PREFIX + uuid, userDetails);
+    public void setUserDetails(String credential, Object userDetails) {
+        caffeineCache.put(SYS_PREFIX + credential, userDetails);
     }
 
 

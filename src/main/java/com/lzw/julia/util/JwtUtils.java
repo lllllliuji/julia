@@ -35,6 +35,10 @@ public class JwtUtils {
         } catch (JWTVerificationException e) {
             return null;
         }
+        // 如果JWT已失效
+        if(decodedJWT.getExpiresAt().before(new Date())) {
+            return null;
+        }
         return decodedJWT.getClaim(CREDENTIAL).asString();
     }
 
