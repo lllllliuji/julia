@@ -16,7 +16,7 @@ import java.io.IOException;
 @Builder
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    public static final String AUTH_HEADER = "Authorization";
+    public static final String AUTH_HEADER = "Authentication";
 
     private CaffeineUtils caffeineUtils;
 
