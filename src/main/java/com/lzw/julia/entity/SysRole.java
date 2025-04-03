@@ -1,15 +1,15 @@
 package com.lzw.julia.entity;
 
-import java.util.Date;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 /**
  * 系统角色表(SysRole)表实体类
  *
@@ -28,20 +28,20 @@ public class SysRole {
 
     // 角色名字
     private String roleName;
-    
+
     // 备注
     private String remark;
-    
+
     // 创建者
     private String creator;
-    
+
     // 更新者
     private String updater;
-    
+
     // 创建时间
     private Date createTime;
-    
+
     // 修改时间
     private Date updateTime;
-    
+
 }

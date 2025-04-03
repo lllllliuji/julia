@@ -27,11 +27,11 @@ public class SysUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名不存在");
         }
         // 2.查询用户的权限信息
-        List<String> userAuthorities = sysUserDao.getAuthoritiesByUserId(sysUser.getId());
+        List<String> userRoles = sysUserDao.getRolesByUserId(sysUser.getId());
 
         return JuliaUserDetails.builder()
                 .sysUser(sysUser)
-                .userAuthorities(userAuthorities)
+                .userRoles(userRoles)
                 .build();
     }
 }

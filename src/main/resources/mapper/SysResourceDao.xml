@@ -5,12 +5,20 @@
     <resultMap type="com.lzw.julia.entity.SysResource" id="SysResourceMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="resourceName" column="resource_name" jdbcType="VARCHAR"/>
-        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="uri" column="url" jdbcType="VARCHAR"/>
         <result property="creator" column="creator" jdbcType="VARCHAR"/>
         <result property="updater" column="updater" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <select id="getRolesByResourceName" parameterType="string" resultType="string">
+        SELECT r.role_name
+        FROM ums_sys_role r
+                 JOIN ums_sys_resource_role rr ON r.id = rr.role_id
+                 JOIN ums_sys_resource res ON rr.resource_id = res.id
+        WHERE res.resource_name = #{resourceName}
+    </select>
 
 </mapper>
 

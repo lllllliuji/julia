@@ -1,15 +1,15 @@
 package com.lzw.julia.entity;
 
-import java.util.Date;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
 /**
  * 系统资源表(SysResource)表实体类
  *
@@ -28,20 +28,20 @@ public class SysResource {
 
     // 资源名称
     private String resourceName;
-    
-    // 资源url
-    private String url;
-    
+
+    // 资源uri
+    private String uri;
+
     // 创建者
     private String creator;
-    
+
     // 更新者
     private String updater;
-    
+
     // 创建时间
     private Date createTime;
-    
+
     // 修改时间
     private Date updateTime;
-    
+
 }

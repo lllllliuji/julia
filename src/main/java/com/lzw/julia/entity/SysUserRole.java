@@ -1,14 +1,13 @@
 package com.lzw.julia.entity;
 
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.IdType;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * 系统用户角色表(SysUserRole)表实体类
  *
@@ -27,8 +26,8 @@ public class SysUserRole {
 
     // 用户id
     private Integer userId;
-    
+
     // 角色id
     private Integer roleId;
-    
+
 }

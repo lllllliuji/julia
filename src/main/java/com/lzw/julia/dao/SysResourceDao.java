@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzw.julia.entity.SysResource;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 系统资源表(SysResource)表数据库访问层
  *
@@ -12,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysResourceDao extends BaseMapper<SysResource> {
-
+    List<String> getRolesByResourceName(String resourceName);
 }
 

@@ -1,6 +1,6 @@
 package com.lzw.julia.config;
 
-import com.lzw.julia.security.JwtAuthenticationFilter;
+import com.lzw.julia.security.*;
 import com.lzw.julia.util.CaffeineUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,12 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -39,24 +36,28 @@ public class SecurityConfig {
         // 基于http请求的授权配置
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/index", "/auth/login").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().access(JuliaAuthorizationManager.builder().caffeineUtils(caffeineUtils).build())
+        );
+        http.exceptionHandling(exception -> exception
+                .accessDeniedHandler(new JuliaAccessDeniedHandler()) // 授权
+                .authenticationEntryPoint(new JuliaAuthenticationEntryPoint()) // 认证
         );
         // 禁用表单登录
         http.formLogin(AbstractHttpConfigurer::disable);
+        http.httpBasic(AbstractHttpConfigurer::disable);
 
         // 无状态管理，禁用session，采用jwt
         http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         // jwt过滤器
-        http.addFilterBefore(JwtAuthenticationFilter.builder()
-                        .caffeineUtils(caffeineUtils)
-                        .build(),
-                UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(JwtAuthenticationFilter.builder().caffeineUtils(caffeineUtils).build(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JuliaExceptionFilter(), ExceptionTranslationFilter.class);
         return http.build();
     }
 
 
     @Bean
     public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+        // 可关联多个AuthenticationProvider，暂时只提供一个。
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(sysUserDetailsService);
         provider.setPasswordEncoder(passwordEncoder); // 关联密码加密器

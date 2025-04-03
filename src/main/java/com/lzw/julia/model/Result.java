@@ -55,4 +55,11 @@ public class Result<T> {
 
     public static <T> Result<T> error() {return error("", null);}
 
+    public static <T> Result<T> error(Boolean status, Integer code, String msg, T data) {
+        return new ResultBuilder<T>().status(status).code(code).msg(msg).data(data).build();
+    }
+
+    public static <T> Result<T> error(Integer code, String msg) {
+        return new ResultBuilder<T>().status(ERROR).code(code).msg(msg).build();
+    }
 }

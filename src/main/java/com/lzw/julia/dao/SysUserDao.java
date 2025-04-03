@@ -14,6 +14,8 @@ import java.util.List;
  */
 @Mapper
 public interface SysUserDao extends BaseMapper<SysUser> {
-    List<String> getAuthoritiesByUserId(Integer userId);
+
+
+    List<String> getRolesByUserId(Integer userId);
 }
 
