@@ -23,7 +23,7 @@
     <select id="getRolesByUserId" parameterType="int" resultType="String">
         SELECT r.role_name
         FROM ums_sys_role r
-        JOIN ums_user_role ur ON r.id = ur.role_id
+        JOIN ums_sys_user_role ur ON r.id = ur.role_id
         WHERE ur.user_id = #{userId}
     </select>
 

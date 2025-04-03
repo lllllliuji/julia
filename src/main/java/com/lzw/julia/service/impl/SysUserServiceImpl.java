@@ -1,7 +1,6 @@
 package com.lzw.julia.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.benmanes.caffeine.cache.Cache;
 import com.lzw.julia.dao.SysUserDao;
 import com.lzw.julia.entity.SysUser;
 import com.lzw.julia.model.vo.UserVo;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -37,7 +35,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUser> impleme
     public UserVo doLogin(String username, String password) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = null;
+        Authentication authentication;
         // 1.认证
         try {
             authentication = authenticationManager.authenticate(authenticationToken);

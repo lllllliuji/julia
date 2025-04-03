@@ -1,6 +1,9 @@
 package com.lzw.julia.config;
 
-import com.lzw.julia.security.*;
+import com.lzw.julia.security.JuliaAccessDeniedHandler;
+import com.lzw.julia.security.JuliaAuthenticationEntryPoint;
+import com.lzw.julia.security.JuliaAuthorizationManager;
+import com.lzw.julia.security.JwtAuthenticationFilter;
 import com.lzw.julia.util.CaffeineUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -50,7 +52,6 @@ public class SecurityConfig {
         http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         // jwt过滤器
         http.addFilterBefore(JwtAuthenticationFilter.builder().caffeineUtils(caffeineUtils).build(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JuliaExceptionFilter(), ExceptionTranslationFilter.class);
         return http.build();
     }
 
