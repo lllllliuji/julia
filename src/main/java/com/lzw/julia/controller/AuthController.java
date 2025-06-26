@@ -5,7 +5,6 @@ import com.lzw.julia.model.dto.LoginQuery;
 import com.lzw.julia.model.vo.UserVo;
 import com.lzw.julia.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,15 +19,7 @@ public class AuthController {
     private SysUserService sysUserService;
 
     @PostMapping("/login")
-    public Result<UserVo> login(@Validated @RequestBody LoginQuery query, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return Result.error(
-                    bindingResult
-                            .getFieldErrors()
-                            .getFirst()
-                            .getDefaultMessage()
-            );
-        }
+    public Result<UserVo> login(@Validated @RequestBody LoginQuery query) {
         UserVo userVo = sysUserService.doLogin(query.getUsername(), query.getPassword());
         if (userVo == null) {
             return Result.error("登录失败");
