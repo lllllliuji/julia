@@ -26,4 +26,6 @@ public class SecurityUtils {
 //        return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }
 
+    private SecurityUtils() {}
+
 }

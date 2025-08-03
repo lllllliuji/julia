@@ -42,4 +42,5 @@ public class JwtUtils {
         return decodedJWT.getClaim(CREDENTIAL).asString();
     }
 
+    private JwtUtils() {}
 }
